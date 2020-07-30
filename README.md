@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This is a Sudoku solver written in Javascript. It is written in pure Javascript, which means it doesn't use any kind of newfangled Javascript library. The name of the program is a portmanteau of Jason and Sudoku.
+This is a Sudoku solver written in Javascript. It is written in pure Javascript, which means it doesn't use any kind of newfangled Javascript library. The name of the program is a portmanteau of Jason and Sudoku. It is written from scratch, without reference to any existing code. Therefore, it may be limited in some ways. Future versions will eliminate these problems and create the most complete sudoku solver in the world.
 
 ## Usage
 
