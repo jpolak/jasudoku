@@ -14,6 +14,12 @@ This file is part of Jasudoku.
     You should have received a copy of the GNU General Public License
     along with Jasudoku.  If not, see <https://www.gnu.org/licenses/>.
 */
+.cellnum {
+    text-align: right;
+    font-family: monospace;
+    font-size: 16pt;
+}
+
 
 .gridcell {
     width: 50px;

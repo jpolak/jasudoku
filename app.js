@@ -18,7 +18,7 @@ This file is part of Jasudoku.
 var APP = {};
 
 APP.test_cases = {
-    "Tubular" : [
+    "Sandpiper" : [
         [0,6,0,0,7,0,0,0,0],
         [8,0,0,1,5,6,0,0,0],
         [0,0,0,0,0,8,0,4,1],
@@ -136,15 +136,39 @@ APP.current_state = [
 
 function next_empty(twodarray){
     var i,j;
+    var m,n;
+    var min = 10;
     for (i=0; i < 9; i++){
         for (j = 0; j < 9; j++){
             if (twodarray[i][j] == 0){
-                return([i+1,j+1]);
+                var poss = possible_inserts(i+1,j+1,twodarray);
+                if (poss.length < min){
+                    min = poss.length;
+                    m = i;
+                    n = j;
+                }
             }
         }
     }
-    return(false);
+    if (min == 10){
+        return(false);
+    }
+    else{
+        return([m+1,n+1]);
+    }
 }
+
+// function next_empty(twodarray){
+//     var i,j;
+//     for (i=0; i < 9; i++){
+//         for (j = 0; j < 9; j++){
+//             if (twodarray[i][j] == 0){
+//                 return([i+1,j+1]);
+//             }
+//         }
+//     }
+//     return(false);
+// }
 
 function values_in_square(r,c, twodarray){
     result = []
@@ -212,10 +236,12 @@ function solve_grid(){
     var count = 0;  //number of moves taken to solve the puzzle
     var moves = []
     APP.current_state = APP.numbers.slice()
+    //The pruning stage, new in Version 2
+
     next_try = next_empty(APP.current_state)
     console.log(next_try);
     while(next_try && count < 15000){
-        console.log("Step: "+count)
+        //console.log("Step: "+count)
         count = count + 1;
         curr_r = next_try[0];
         curr_c = next_try[1];
@@ -229,7 +255,7 @@ function solve_grid(){
         else if (possible.length == 0 && moves.length > 0){
             next_move = moves[moves.length - 1];
             while (next_move[2].length == 0){
-                console.log("Backtracking...");
+                //console.log("Backtracking...");
                 erase_r = next_move[0];
                 erase_c = next_move[1];
                 set_mvalue(erase_r, erase_c, 0, APP.current_state);
@@ -242,14 +268,14 @@ function solve_grid(){
             change_r = next_move[0];
             change_c = next_move[1];
             set_mvalue(change_r, change_c, hopeful_try, APP.current_state);
-            console.log("Move at "+change_r+","+change_c+"of "+ old +" is no good but we replace it with "+hopeful_try);
+            //console.log("Move at "+change_r+","+change_c+"of "+ old +" is no good but we replace it with "+hopeful_try);
         }
         else{
             num_to_try = possible.pop();
             next_move = [curr_r, curr_c, possible, num_to_try];
             moves.push(next_move);
             set_mvalue(curr_r, curr_c, num_to_try, APP.current_state);
-            console.log("There is are new possibilities at "+curr_r+", "+curr_c+" so we will put "+num_to_try+" there.");
+            //console.log("There is are new possibilities at "+curr_r+", "+curr_c+" so we will put "+num_to_try+" there.");
         }
         update_current_grid();
         next_try = next_empty(APP.current_state);
