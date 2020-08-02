@@ -16,12 +16,14 @@ This file is part of Jasudoku.
 -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <script language="javascript" src="app.js"></script>
     <link rel="stylesheet" href="main.css">
     <title>Sudoku Solver</title>
 </head>
+
 <body onLoad="load_document_elements();">
     <h1>Sudoku Solver</h1>
     <div class="board">
@@ -137,12 +139,18 @@ This file is part of Jasudoku.
             <h3>Mode</h3>
             <input type="radio" id="mode_edit" name="game_mode" value="mode_edit" checked="checked">
             <label for="male">Edit</label><br>
+            <input type="radio" id="mode_load" name="game_mode" value="mode_load">
+            <label for="male">Load</label>
+            <select id="testcases">
+            </select>
+            <button type="button" onClick="load_testcase();">Load</button>
+            <br>
             <input type="radio" id="mode_solve" name="game_mode" value="mode_solve" onClick="check_solve_ready();">
             <label for="female">Solve</label><br><br>
-            
+
             <div align="center">
-            <button type="button" onClick="attempt_solution();">Attempt Solution</button>
-            <button type="button" onClick="reset();">Clear Board</button>
+                <button type="button" onClick="attempt_solution();">Attempt Solution</button>
+                <button type="button" onClick="reset();">Clear Board</button>
             </div>
 
             <p>Status: </p>
@@ -152,7 +160,52 @@ This file is part of Jasudoku.
             <p>Note: Your puzzle may not be solvable. If it is, the program may time out before it finds a solution.</p>
         </div>
     </div>
+    <h1>Benchmarks</h1>
+    <div align="center">
+        <table class='benchmarks'>
+            <tr>
+                <td>Test Case</td>
+                <td>Version 1</td>
+                <td>Version 2</td>
+            </tr>
+            <tr>
+                <td>Tubular</td>
+                <td>13111</td>
+                <td>???</td>
+            </tr>
+            <tr>
+                <td>Swamphen</td>
+                <td>&gt;15000</td>
+                <td>???</td>
+            </tr>
+            <tr>
+                <td>Honeyeater</td>
+                <td>1706</td>
+                <td>???</td>
+            </tr>
+            <tr>
+                <td>Swamphen</td>
+                <td>14413</td>
+                <td>???</td>
+            </tr>
+        </table>
+    </div>
     <h1>Testimonials</h1>
+    <div align="center">
+        <p>"After months of trying the hardest Sudoku known to the Eastern hemisphere, Jason's program finally
+            alleviated me of my immense difficulties."
+            <i>~Jeff</i></p>
 
+        <p>"I believe Jason's program, while superbly designed, takes way too many steps to solve even the simplest of sudokus."
+            <i>~Rhonda</i></p>
+
+        <p>"Typically at Microsoft, half our employees spend the morning solving Sudokus. Thankfully Jason's program
+            removes this burden from our loyal workers, and productivity is up 27%."
+            <i>~Microsoft CEO</i></p>
+
+        <p>"These testimonials are fake."
+            <i>~Jason</i></p>
+    </div>
 </body>
+
 </html>

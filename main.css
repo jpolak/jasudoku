@@ -58,4 +58,14 @@ h1,h2 {
 
 body {
     font-family: Lato, sans-serif;
+    line-height: 190%;
+}
+
+.benchmarks {
+    width: 70%;
+    border: 0;
+}
+
+.benchmarks td{
+    border: 1px solid rgb(134, 134, 134);
 }

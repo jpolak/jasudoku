@@ -17,6 +17,73 @@ This file is part of Jasudoku.
 
 var APP = {};
 
+APP.test_cases = {
+    "Tubular" : [
+        [0,6,0,0,7,0,0,0,0],
+        [8,0,0,1,5,6,0,0,0],
+        [0,0,0,0,0,8,0,4,1],
+        [0,0,4,0,0,0,0,3,9],
+        [0,0,0,3,0,0,7,2,0],
+        [0,0,3,0,0,0,0,1,4],
+        [0,0,0,0,0,1,0,9,5],
+        [2,0,0,8,9,5,0,0,0],
+        [0,9,0,0,3,0,0,0,0]
+    ],
+    "Swamphen" : [
+        [0,8,0,0,0,0,0,3,9],
+        [0,0,6,0,0,7,0,4,8],
+        [0,0,0,0,3,0,0,0,0],
+        [8,0,0,0,1,0,0,0,7],
+        [0,6,2,0,0,8,9,0,0],
+        [1,0,0,0,5,0,0,0,2],
+        [0,0,0,0,7,0,0,0,0],
+        [0,0,5,0,0,4,0,7,3],
+        [0,9,0,0,0,0,0,1,6]
+    ],
+    "Honeyeater" : [
+        [8,5,0,0,9,0,0,4,6],
+        [0,0,2,0,4,0,7,0,0],
+        [1,0,0,0,0,0,0,0,5],
+        [0,0,0,0,6,0,0,0,0],
+        [0,2,0,4,0,1,0,3,0],
+        [3,0,0,0,0,0,0,0,7],
+        [9,0,0,0,0,0,0,0,2],
+        [0,7,0,0,0,0,0,8,0],
+        [0,0,4,6,0,5,3,0,0] 
+    ],
+    "Fairywren" : [
+        [0,7,0,3,0,4,0,9,0],
+        [0,1,0,0,6,0,0,3,0],
+        [0,0,4,0,2,0,1,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,8,0,4,0,6,0,0],
+        [9,6,1,0,0,0,5,4,2],
+        [0,0,0,5,0,6,0,0,0],
+        [1,0,6,0,8,0,7,0,9],
+        [7,0,0,0,0,0,0,0,8]
+    ]
+};
+
+function load_testcase(){
+    if (!document.getElementById("mode_load").checked){
+        APP.elt_statusbar.value = "Please check the load option to load a test case. This cannot be done in the current mode.";
+    }
+    else{
+        //Load the testcase
+        testselect = document.getElementById("testcases");
+        testcase = APP.test_cases[testselect.value];
+        var i,j;
+        for (i = 1; i <= 9; i++){
+            for (j = 1; j <= 9; j++){
+                to_ins = testcase[i-1][j-1];
+                set_mvalue(i, j, to_ins, APP.numbers);
+                set_mvalue(i, j, to_ins, APP.current_state);
+            }
+        }
+        update_current_grid();
+    }
+}
+
 //Only works on primitive numeric arrays
 function array_equals(a,b){
     s1 = a.sort().toString();
@@ -54,6 +121,15 @@ APP.numbers = [
 ]
 
 APP.current_state = [
+    [0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0]
 ]
 
 
@@ -120,12 +196,12 @@ function get_ids(r, c){
 
 
 function get_mvalue(r, c, twodarray){
-    result = APP.numbers[r-1][c-1];
+    result = twodarray[r-1][c-1];
     return(result);
 }
 
 function set_mvalue(r, c, val, twodarray){
-    APP.numbers[r-1][c-1] = val;
+    twodarray[r-1][c-1] = val;
 }
 
 //Solves the grid stored in APP.numbers
@@ -133,11 +209,11 @@ function set_mvalue(r, c, val, twodarray){
 //The moves will be stored in an array like this:
 // [ [r,c, [possible], choice], ... ]
 function solve_grid(){
+    var count = 0;  //number of moves taken to solve the puzzle
     var moves = []
     APP.current_state = APP.numbers.slice()
     next_try = next_empty(APP.current_state)
     console.log(next_try);
-    var count = 0;
     while(next_try && count < 15000){
         console.log("Step: "+count)
         count = count + 1;
@@ -206,6 +282,10 @@ function update_current_grid(){
 
 function load_document_elements(){
     APP.elt_statusbar = document.getElementById("statusbar");
+    APP.elt_testcases = document.getElementById("testcases")
+    for (const key in APP.test_cases){
+        APP.elt_testcases.options[APP.elt_testcases.options.length] = new Option(key, key);
+    }
 }
 
 function get_id_value(r, c){
@@ -327,16 +407,3 @@ function reset(){
     APP.elt_statusbar.value = "Solver reset."
 }
 
-APP.test_cases = {
-    "Tubular" : [
-        [0,6,0,0,7,0,0,0,0],
-        [8,0,0,1,5,6,0,0,0],
-        [0,0,0,0,0,8,0,4,1],
-        [0,0,4,0,0,0,0,3,9],
-        [0,0,0,3,0,0,7,2,0],
-        [0,0,3,0,0,0,0,1,4],
-        [0,0,0,0,0,1,0,9,5],
-        [2,0,0,8,9,5,0,0,0],
-        [0,9,0,0,3,0,0,0,0]
-    ]
-};
