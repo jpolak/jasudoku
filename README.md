@@ -14,6 +14,8 @@ So far, it limits the total moves to 15000. A few sudoku puzzles take longer tha
 
 **Update 2020-08-01**: Version 2 of Jasudoku is much faster. Instead of proceeding upper-left corner by rows to the lower-right corner, it now proceeds by choosing the squares with the least number of possibilities first. That way, the move tree gets exhausted far more rapidly. What used to take thousands of moves now only takes hundreds. In fact, I doubt there exists a Sudoku that takes more than 500 moves.
 
+**Edit**: So, I was wrong. Finnish mathematician Arto Inkala actually constructed a very hard Sudoku, which I imported as a test case "Inkala" into the program. It is still solved by Jasudoku, but in 8894 moves!
+
 ## Future directions
 
 Optimizations will be put in place to reduce the number of moves required, and the styling will be improved.
