@@ -72,7 +72,31 @@ APP.test_cases = {
         [0,0,1,0,0,0,0,6,8],
         [0,0,8,5,0,0,0,1,0],
         [0,9,0,0,0,0,4,0,0]
-    ]
+    ],
+	//from https://sudokuwiki.org/Weekly_Sudoku.asp?puz=28
+	"Filmer28" : [
+	    [6,0,0,0,0,8,9,4,0],
+    	[9,0,0,0,0,6,1,0,0],
+    	[0,7,0,0,4,0,0,0,0],
+    	[2,0,0,6,1,0,0,0,0],
+   		[0,0,0,0,0,0,2,0,0],
+    	[0,8,9,0,0,2,0,0,0],
+    	[0,0,0,0,6,0,0,0,5],
+    	[0,0,0,0,0,0,0,3,0],
+    	[8,0,0,0,0,1,6,0,0]
+	],
+	//from https://sudokuwiki.org/Weekly_Sudoku.asp?puz=49
+	"Filmer49" : [
+		[0,0,2,8,0,0,0,0,0],
+		[0,3,0,0,6,0,0,0,7],
+		[1,0,0,0,0,0,0,4,0],
+		[6,0,0,0,9,0,0,0,0],
+		[0,5,0,6,0,0,0,0,9],
+		[0,0,0,0,5,7,0,6,0],
+		[0,0,0,3,0,0,1,0,0],
+		[0,7,0,0,0,6,0,0,8],
+		[4,0,0,0,0,0,0,2,0]
+	]
 };
 
 function load_testcase(){
@@ -251,7 +275,7 @@ function solve_grid(){
 
     next_try = next_empty(APP.current_state)
     console.log(next_try);
-    while(next_try && count < 15000){
+    while(next_try && count < 45000){
         //console.log("Step: "+count)
         count = count + 1;
         curr_r = next_try[0];
