@@ -14,31 +14,24 @@
 #     You should have received a copy of the GNU General Public License
 #     along with Jasudoku.  If not, see <https://www.gnu.org/licenses/>.
 
-import math
-
 def values_in_square(r,c, grid):
-    result = []
-    corner_r = 3*math.floor((r-1)/3)
-    corner_c = 3*math.floor((c-1)/3)
+    result = set()
+    corner_r = 3*( (r-1)//3 )
+    corner_c = 3*( (c-1)//3 )
     for i in range(0,3):
         for j in range(0,3):
             poss = grid[corner_r + i][corner_c + j]
             if poss != 0:
-                result.append(poss)
+                result.add(poss)
     return(result)
 
 def possible_inserts(r, c, grid):
-    used = []
+    used = set()
     for i in range(0,9):
-        if grid[r-1][i] != 0:
-            used.append(grid[r-1][i])
-        if grid[i][c-1] != 0:
-            used.append(grid[i][c-1])
-    used = used + values_in_square(r, c, grid)
-    result = []
-    for j in range(1,10):
-        if not j in used:
-            result.append(j)
+        used.add(grid[r-1][i])
+        used.add(grid[i][c-1])
+    used = used.union(values_in_square(r, c, grid))
+    result = [j for j in range(1,10) if not j in used]
     return(result)
 
 def next_empty(grid):
@@ -56,7 +49,6 @@ def next_empty(grid):
         return(False)
     else:
         return((m+1,n+1))
-
 
 def solve_grid(grid):
     count = 0
