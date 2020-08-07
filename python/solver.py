@@ -19,10 +19,9 @@ def values_in_square(r,c, grid):
     corner_r = 3*( (r-1)//3 )
     corner_c = 3*( (c-1)//3 )
     for i in range(0,3):
-        for j in range(0,3):
-            poss = grid[corner_r + i][corner_c + j]
-            if poss != 0:
-                result.add(poss)
+        result = result.union(set( grid[corner_r+i][corner_c:corner_c+3]) )
+    if 0 in result:
+        result.remove(0)
     return(result)
 
 def possible_inserts(r, c, grid):
