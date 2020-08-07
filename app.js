@@ -371,7 +371,11 @@ function attempt_solution(){
             }
         }
         //actually solve it:
+        var t0 = performance.now();
         solve_grid();
+        var t1 = performance.now();
+        var timeTaken = (t1-t0)/1000;
+        APP.elt_statusbar.value = APP.elt_statusbar.value + "\nTime taken: "+timeTaken+" seconds";
     }
 }
 
