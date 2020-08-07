@@ -84,7 +84,7 @@ APP.test_cases = {
     	[0,0,0,0,6,0,0,0,5],
     	[0,0,0,0,0,0,0,3,0],
     	[8,0,0,0,0,1,6,0,0]
-	],
+    ],
 	//from https://sudokuwiki.org/Weekly_Sudoku.asp?puz=49
 	"Filmer49" : [
 		[0,0,2,8,0,0,0,0,0],
@@ -167,8 +167,6 @@ APP.current_state = [
     [0,0,0,0,0,0,0,0,0]
 ]
 
-
-
 function next_empty(twodarray){
     var i,j;
     var m,n;
@@ -232,7 +230,7 @@ function possible_inserts(r,c, twodarray){
             used.push(twodarray[i][c-1]);
         }
     }
-    used = used.concat(values_in_square(r, c, twodarray))
+    used = used.concat(values_in_square(r, c, twodarray));
     result = []
     for (j = 1; j <= 9; j++){
         if (!used.includes(j)){
@@ -270,12 +268,13 @@ function set_mvalue(r, c, val, twodarray){
 function solve_grid(){
     var count = 0;  //number of moves taken to solve the puzzle
     var moves = []
+    var movesl = 0
     APP.current_state = APP.numbers.slice()
     //The pruning stage, new in Version 2
 
     next_try = next_empty(APP.current_state)
     console.log(next_try);
-    while(next_try && count < 45000){
+    while(next_try){
         //console.log("Step: "+count)
         count = count + 1;
         curr_r = next_try[0];
@@ -285,9 +284,10 @@ function solve_grid(){
             //there is a next blank cell, but there is no next move
             //AND there are no previous alternatives to try :(
             console.log("There are no more moves. Not solvable.")
+            APP.elt_statusbar.value = "Not solvable after "+count+" moves."
             return(false);
         }
-        else if (possible.length == 0 && moves.length > 0){
+        else if (possible.length == 0 && movesl > 0){
             next_move = moves[moves.length - 1];
             while (next_move[2].length == 0){
                 //console.log("Backtracking...");
@@ -295,6 +295,7 @@ function solve_grid(){
                 erase_c = next_move[1];
                 set_mvalue(erase_r, erase_c, 0, APP.current_state);
                 moves.pop();
+                movesl = movesl - 1;
                 next_move = moves[moves.length - 1];
             }
             hopeful_try = next_move[2].pop();
@@ -309,6 +310,7 @@ function solve_grid(){
             num_to_try = possible.pop();
             next_move = [curr_r, curr_c, possible, num_to_try];
             moves.push(next_move);
+            movesl = movesl + 1;
             set_mvalue(curr_r, curr_c, num_to_try, APP.current_state);
             //console.log("There is are new possibilities at "+curr_r+", "+curr_c+" so we will put "+num_to_try+" there.");
         }
